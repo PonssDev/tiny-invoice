@@ -1,66 +1,92 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { NgFor } from '@angular/common';
+import { MatNativeDateModule } from '@angular/material/core';
+import { InvoiceForm } from '../../interfaces/invoice-form-interface';
 
 @Component({
   selector: 'app-create-invoice',
-  imports: [],
+  imports: [
+    NgFor,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatButtonModule,
+    MatNativeDateModule,
+  ],
   templateUrl: './create-invoice.component.html',
   styleUrl: './create-invoice.component.css'
 })
 export class CreateInvoiceComponent {
 
-  public invoiceForm: FormGroup
+  public invoiceForm: FormGroup<InvoiceForm>
 
-  constructor(private readonly fb: FormBuilder){
+  constructor(private readonly fb: FormBuilder) {
     this.invoiceForm = this.fb.group({
       emisor: this.fb.group({
-        emisorName: ['', Validators.required],
-        emisorAddress: [''],
-        emisorNif: [''],
-        emisorEmail: [''],
+        emisorName: this.fb.control('', Validators.required),
+        emisorAddress: this.fb.control(''),
+        emisorNif: this.fb.control(''),
+        emisorEmail: this.fb.control(''),
       }),
       reciver: this.fb.group({
-        reciverName: ['', Validators.required],
-        reciverAddress: [''],
-        reciverNif: [''],
+        reciverName: this.fb.control('', Validators.required),
+        reciverAddress: this.fb.control(''),
+        reciverNif: this.fb.control(''),
       }),
       invoiceDetails: this.fb.group({
-        number: [''],
-        date: [''],
-        expirationDate: [''],
+        number: this.fb.control(''),
+        date: this.fb.control(''),
+        expirationDate: this.fb.control(''),
       }),
       services: this.fb.array([
         this.newService()
       ]),
       taxes: this.fb.group({
-        iva: [''],
-        discount: [''],
+        iva: this.fb.control(21, Validators.required),
+        discount: this.fb.control<number | null>(null),
       }),
       additionalRemarks: this.fb.group({
-        marks: [''],
-        paymentInformation: [''],
+        remarks: this.fb.control(''),
+        paymentInformation: this.fb.control(''),
       })
-    })
+    });
   }
 
   get services(): FormArray{
     return this.invoiceForm.get('services') as FormArray
   }
 
-  private newService(): FormGroup{
-    return this.fb.group({
-      description: ['', Validators.required],
-      quantity: ['', [Validators.required, Validators.min(1)]],
-      price: ['', [Validators.required, Validators.min(0)]],
-      total: [''],
+  public newService(): FormGroup{
+    const service = this.fb.group({
+      description: this.fb.control('', Validators.required),
+      quantity: this.fb.control(1),
+      price: this.fb.control('', [Validators.required, Validators.min(0)]),
+      total: this.fb.control(''),
     })
+
+    service.get('total')?.disable()
+
+    service.get('quantity')?.valueChanges.subscribe(() => {
+      this.calculateTotal(service)
+    })
+
+    service.get('price')?.valueChanges.subscribe(() => {
+      this.calculateTotal(service)
+    })
+    return service
   }
 
   public addService(): void{
     this.services.push(this.newService())
   }
 
-  public deleteService(index: number): void{
+  public removeService(index: number): void{
     this.services.removeAt(index)
   }
 
@@ -70,6 +96,17 @@ export class CreateInvoiceComponent {
     } else {
       console.log('Formulario invalido')
     }
+  }
+
+  private calculateTotal(service: FormGroup){
+    const quantity = service.get('quantity')?.value
+    const price = service.get('price')?.value
+    const subtotal = quantity * price
+
+    service.get('total')?.setValue(subtotal.toFixed(2))
+
+    const discountRate = this.invoiceForm.get('taxes')?.get('discount')?.value || 0
+    
   }
 
 }

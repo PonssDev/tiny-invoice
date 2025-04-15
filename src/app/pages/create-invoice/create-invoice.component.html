@@ -1,1 +1,114 @@
 <p>create-invoice works!</p>
+<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+  <div class="form-section" formGroupName="emisor">
+    <h4>Tú información</h4>
+    <mat-form-field class="form-group">
+      <mat-label for="emisor-name">Nombre/Empresa</mat-label>
+      <input matInput formControlName="emisorName">
+    </mat-form-field>
+    <mat-form-field class="form-group">
+      <mat-label for="emisor-addres">Dirección</mat-label>
+      <input matInput formControlName="emisorAddress">
+    </mat-form-field>
+    <mat-form-field class="form-group">
+      <mat-label for="emisor-nif">NIF/CIF</mat-label>
+      <input matInput formControlName="emisorNif">
+    </mat-form-field>
+    <mat-form-field class="form-group">
+      <mat-label for="emisor-email">Email</mat-label>
+      <input matInput formControlName="emisorEmail">
+    </mat-form-field>
+  </div>
+
+  <div class="form-section" formGroupName="reciver">
+    <h4>Información del cliente</h4>
+    <mat-form-field class="form-group">
+      <mat-label for="reciver-name">Nombre/Empresa</mat-label>
+      <input matInput formControlName="reciverName">
+    </mat-form-field>
+    <mat-form-field class="form-group">
+      <mat-label for="reciver-addres">Dirección</mat-label>
+      <input matInput formControlName="reciverAddress">
+    </mat-form-field>
+    <mat-form-field class="form-group">
+      <mat-label for="reciver-nif">NIF/CIF</mat-label>
+      <input matInput formControlName="reciverName">
+    </mat-form-field>
+  </div>
+
+  <div class="form-section" formGroupName="invoiceDetails">
+    <h4>Detalles de la factura</h4>
+    <div class="form-row">
+      <mat-form-field class="form-group">
+        <mat-label for="invoice-number">Número de factura</mat-label>
+        <input matInput formControlName="number">
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-label for="invoice-date">Fecha</mat-label>
+        <input matInput formControlName="date" [matDatepicker]="picker" placeholder="Fecha de la factura">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="form-group">
+      <mat-label for="invoice-expiration-date">Fecha de vencimiento</mat-label>
+      <input matInput formControlName="expirationDate" [matDatepicker]="picker2" placeholder="Fecha de vencimiento">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="form-section" formArrayName="services">
+    <h4>Servicios/Productos</h4>
+    <div class="items-container">
+      <div class="item-row" *ngFor="let service of services.controls; let i = index" [formGroupName]="i">
+        <mat-form-field class="form-group">
+          <mat-label for="item-name">Nombre</mat-label>
+          <input matInput formControlName="description">
+        </mat-form-field>
+        <mat-form-field class="form-group">
+          <mat-label for="item-quantity">Cantidad</mat-label>
+          <input type="number" matInput formControlName="quantity">
+        </mat-form-field>
+        <mat-form-field class="form-group">
+          <mat-label for="item-price">Precio</mat-label>
+          <input type="number" matInput formControlName="price">
+        </mat-form-field>
+        <mat-form-field class="form-group item-total">
+          <mat-label for="item-total">Total</mat-label>
+          <input type="number" matInput formControlName="total">
+        </mat-form-field>
+        <button class="remove-item" title="Eliminar ítem" (click)="removeService(i)" mat-button><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+    <button class="add-item secondary-button" mat-button (click)="addService()">Añadir producto</button>
+  </div>
+
+  <div class="form-section" formGroupName="taxes">
+    <h4>Impuestos y totales</h4>
+    <div class="form-row">
+      <mat-form-field class="form-group">
+        <mat-label for="tax">IVA</mat-label>
+        <input type="number" matInput formControlName="iva" placeholder="IVA">
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-label for="discount">Descuento</mat-label>
+        <input type="number" matInput formControlName="discount" placeholder="Descuento (%)">
+      </mat-form-field>
+    </div>
+    <div class="total-summary">
+      <div class="total-row">
+        <span>Subtotal:</span>
+        <span>{{ invoiceForm.get('totalWithoutTax')?.value}}</span>
+      </div>
+      <div class="total-row">
+        <span>IVA:</span>
+        <span>{{ invoiceForm.get('iva')?.value}}</span>
+      </div>
+      <div class="total-row">
+        <span>Total con IVA:</span>
+        <span>{{ invoiceForm.get('totalWithTax')?.value}}</span>
+      </div>
+    </div>
+  </div>
+</form>
