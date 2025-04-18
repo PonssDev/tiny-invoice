@@ -99,15 +99,19 @@
     <div class="total-summary">
       <div class="total-row">
         <span>Subtotal:</span>
-        <span>{{ invoiceForm.get('totalWithoutTax')?.value}}</span>
+        <span>{{ subtotal }}</span>
       </div>
       <div class="total-row">
-        <span>IVA:</span>
-        <span>{{ invoiceForm.get('iva')?.value}}</span>
+        <span>Descuento:</span>
+        <span>{{ discountAmount }}</span>
       </div>
       <div class="total-row">
-        <span>Total con IVA:</span>
-        <span>{{ invoiceForm.get('totalWithTax')?.value}}</span>
+        <span>IVA<span class="variable-tax">{{ tax }}:</span> </span>
+        <span>{{ tax }}</span>
+      </div>
+      <div class="total-row">
+        <span>TOTAL:</span>
+        <span>{{ total }}</span>
       </div>
     </div>
   </div>

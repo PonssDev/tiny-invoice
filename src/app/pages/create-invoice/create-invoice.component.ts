@@ -26,6 +26,16 @@ export class CreateInvoiceComponent {
 
   public invoiceForm: FormGroup<InvoiceForm>
 
+  public subtotal: number = 0
+
+  public total: number = 0
+
+  public discount: number = 0
+
+  public tax: number = 21
+
+  public discountAmount: number = 0
+
   constructor(private readonly fb: FormBuilder) {
     this.invoiceForm = this.fb.group({
       emisor: this.fb.group({
@@ -62,12 +72,20 @@ export class CreateInvoiceComponent {
     return this.invoiceForm.get('services') as FormArray
   }
 
-  public newService(): FormGroup{
+  public onSubmit(){
+    if(this.invoiceForm.valid){
+      console.log(this.invoiceForm.value)
+    } else {
+      console.log('Formulario invalido')
+    }
+  }
+
+  private newService(): FormGroup{
     const service = this.fb.group({
       description: this.fb.control('', Validators.required),
       quantity: this.fb.control(1),
       price: this.fb.control('', [Validators.required, Validators.min(0)]),
-      total: this.fb.control(''),
+      total: this.fb.control<number | null>(null),
     })
 
     service.get('total')?.disable()
@@ -90,23 +108,20 @@ export class CreateInvoiceComponent {
     this.services.removeAt(index)
   }
 
-  public onSubmit(){
-    if(this.invoiceForm.valid){
-      console.log(this.invoiceForm.value)
-    } else {
-      console.log('Formulario invalido')
-    }
-  }
-
   private calculateTotal(service: FormGroup){
     const quantity = service.get('quantity')?.value
     const price = service.get('price')?.value
-    const subtotal = quantity * price
+    this.subtotal += quantity * price
 
-    service.get('total')?.setValue(subtotal.toFixed(2))
+    service.get('total')?.setValue(this.subtotal.toFixed(2))
 
-    const discountRate = this.invoiceForm.get('taxes')?.get('discount')?.value || 0
-    
+    const discountRate = this.invoiceForm.get('taxes.discount')?.value ?? 0
+    this.discountAmount = (this.subtotal * discountRate) / 100
+
+    const taxRate = this.invoiceForm.get('taxes.iva')?.value ?? 0
+    const taxableAmount = this.subtotal - this.discountAmount
+    const taxAmount = (taxableAmount * taxRate) / 100
+
+    this.total = taxableAmount + taxAmount
   }
-
 }
