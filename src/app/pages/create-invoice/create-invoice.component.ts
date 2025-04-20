@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
@@ -18,11 +18,12 @@ import { InvoiceForm } from '../../interfaces/invoice-form-interface';
     MatDatepickerModule,
     MatButtonModule,
     MatNativeDateModule,
+    MatButtonModule,
   ],
   templateUrl: './create-invoice.component.html',
   styleUrl: './create-invoice.component.css'
 })
-export class CreateInvoiceComponent {
+export class CreateInvoiceComponent implements OnInit {
 
   public invoiceForm: FormGroup<InvoiceForm>
 
@@ -35,6 +36,16 @@ export class CreateInvoiceComponent {
   public tax: number = 21
 
   public discountAmount: number = 0
+
+  ngOnInit(): void {
+    this.invoiceForm.get('taxes.iva')?.valueChanges.subscribe(() => {
+      this.calculateTotals();
+    });
+
+    this.invoiceForm.get('taxes.discount')?.valueChanges.subscribe(() => {
+      this.calculateTotals();
+    });
+  }
 
   constructor(private readonly fb: FormBuilder) {
     this.invoiceForm = this.fb.group({
@@ -64,9 +75,11 @@ export class CreateInvoiceComponent {
       additionalRemarks: this.fb.group({
         remarks: this.fb.control(''),
         paymentInformation: this.fb.control(''),
-      })
+      }),
     });
   }
+
+  
 
   get services(): FormArray{
     return this.invoiceForm.get('services') as FormArray
@@ -111,17 +124,30 @@ export class CreateInvoiceComponent {
   private calculateTotal(service: FormGroup){
     const quantity = service.get('quantity')?.value
     const price = service.get('price')?.value
-    this.subtotal += quantity * price
+    
+    const serviceTotal = quantity * price
+    service.get('total')?.setValue(serviceTotal.toFixed(2))
+    
+    this.calculateTotals();
+  }
 
-    service.get('total')?.setValue(this.subtotal.toFixed(2))
+  private calculateTotals() {
+    this.subtotal = 0;
+    this.services.controls.forEach(service => {
+      const quantity = service.get('quantity')?.value ?? 0;
+      const price = service.get('price')?.value ?? 0;
+      this.subtotal += quantity * price;
+    });
 
-    const discountRate = this.invoiceForm.get('taxes.discount')?.value ?? 0
-    this.discountAmount = (this.subtotal * discountRate) / 100
+    const discountRate = this.invoiceForm.get('taxes.discount')?.value ?? 0;
+    this.discount = discountRate;
+    this.discountAmount = (this.subtotal * discountRate) / 100;
 
-    const taxRate = this.invoiceForm.get('taxes.iva')?.value ?? 0
-    const taxableAmount = this.subtotal - this.discountAmount
-    const taxAmount = (taxableAmount * taxRate) / 100
+    const taxRate = this.invoiceForm.get('taxes.iva')?.value ?? 0;
+    this.tax = taxRate;
+    const taxableAmount = this.subtotal - this.discountAmount;
+    const taxAmount = (taxableAmount * taxRate) / 100;
 
-    this.total = taxableAmount + taxAmount
+    this.total = taxableAmount + taxAmount;
   }
 }

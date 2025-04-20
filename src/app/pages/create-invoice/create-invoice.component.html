@@ -115,4 +115,22 @@
       </div>
     </div>
   </div>
+
+  <div class="form-section" formGroupName="additionalRemarks">
+    <h4 class="notes-section">Notas adicionales</h4>
+    <mat-form-field class="form-group">
+      <mat-label for="notes">Notas (opcional)</mat-label>
+      <textarea matInput formControlName="remarks"></textarea>
+    </mat-form-field>
+    <mat-form-field class="form-group">
+      <mat-label for="terms">Información de pago</mat-label>
+      <textarea matInput formControlName="paymentInformation" placeholder="Ej: Transferencia bancaria a ES12 1234 1234 1234 1234"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="form-actions">
+    <button mat-button id="preview-invoice" class="primary-button"><i class="fas fa-eye"></i> <span id="preview-text">Vista previa</span></button>
+    <button mat-button id="save-invoice" class="secondary-button"><i class="fas fa-save"></i> <span id="save-text">Guardar</span></button>
+    <button mat-button id="download-invoice" class="primary-button"><i class="fas fa-download"></i> <span id="download-text">Descargar PDF</span></button>
+</div>
 </form>
