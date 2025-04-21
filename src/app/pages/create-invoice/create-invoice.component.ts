@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import { MatFormFieldModule} from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonModule } from '@angular/material/button';
 import { NgFor } from '@angular/common';
-import { MatNativeDateModule } from '@angular/material/core';
 import { InvoiceForm } from '../../interfaces/invoice-form-interface';
 
 @Component({
@@ -13,12 +8,6 @@ import { InvoiceForm } from '../../interfaces/invoice-form-interface';
   imports: [
     NgFor,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatButtonModule,
-    MatNativeDateModule,
-    MatButtonModule,
   ],
   templateUrl: './create-invoice.component.html',
   styleUrl: './create-invoice.component.css'
@@ -148,6 +137,6 @@ export class CreateInvoiceComponent implements OnInit {
     const taxableAmount = this.subtotal - this.discountAmount;
     const taxAmount = (taxableAmount * taxRate) / 100;
 
-    this.total = taxableAmount + taxAmount;
+    this.total = parseFloat((taxableAmount + taxAmount).toFixed(2));
   }
 }
