@@ -1,0 +1,131 @@
+<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+  <div class="form-section" formGroupName="emisor">
+    <h4>Tú información</h4>
+    <div class="form-group">
+      <label for="emisor-name">Nombre/Empresa</label>
+      <input id="emisor-name" type="text" formControlName="emisorName">
+    </div>
+    <div class="form-group">
+      <label for="emisor-address">Dirección</label>
+      <input id="emisor-address" type="text" formControlName="emisorAddress">
+    </div>
+    <div class="form-group">
+      <label for="emisor-nif">NIF/CIF</label>
+      <input id="emisor-nif" type="text" formControlName="emisorNif">
+    </div>
+    <div class="form-group">
+      <label for="emisor-email">Email</label>
+      <input id="emisor-email" type="email" formControlName="emisorEmail">
+    </div>
+  </div>
+
+  <div class="form-section" formGroupName="reciver">
+    <h4>Información del cliente</h4>
+    <div class="form-group">
+      <label for="reciver-name">Nombre/Empresa</label>
+      <input id="reciver-name" type="text" formControlName="reciverName">
+    </div>
+    <div class="form-group">
+      <label for="reciver-address">Dirección</label>
+      <input id="reciver-address" type="text" formControlName="reciverAddress">
+    </div>
+    <div class="form-group">
+      <label for="reciver-nif">NIF/CIF</label>
+      <input id="reciver-nif" type="text" formControlName="reciverNif">
+    </div>
+  </div>
+
+  <div class="form-section" formGroupName="invoiceDetails">
+    <h4>Detalles de la factura</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="invoice-number">Número de factura</label>
+        <input id="invoice-number" type="text" formControlName="number">
+      </div>
+      <div class="form-group">
+        <label for="invoice-date">Fecha</label>
+        <input id="invoice-date" type="date" formControlName="date" placeholder="Fecha de la factura">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="invoice-expiration-date">Fecha de vencimiento</label>
+      <input id="invoice-expiration-date" type="date" formControlName="expirationDate" placeholder="Fecha de vencimiento">
+    </div>
+  </div>
+
+  <div class="form-section" formArrayName="services">
+    <h4>Servicios/Productos</h4>
+    <div class="items-container">
+      <div class="item-row" *ngFor="let service of services.controls; let i = index" [formGroupName]="i">
+        <div class="form-group">
+          <label for="item-name-{{i}}">Nombre</label>
+          <input id="item-name-{{i}}" type="text" formControlName="description">
+        </div>
+        <div class="form-group">
+          <label for="item-quantity-{{i}}">Cantidad</label>
+          <input id="item-quantity-{{i}}" type="number" formControlName="quantity">
+        </div>
+        <div class="form-group">
+          <label for="item-price-{{i}}">Precio</label>
+          <input id="item-price-{{i}}" type="number" formControlName="price">
+        </div>
+        <div class="form-group item-total">
+          <label for="item-total-{{i}}">Total</label>
+          <input id="item-total-{{i}}" type="number" formControlName="total">
+        </div>
+        <button class="remove-item" title="Eliminar ítem" (click)="removeService(i)" type="button"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+    <button class="add-item secondary-button" type="button" (click)="addService()">Añadir producto</button>
+  </div>
+
+  <div class="form-section" formGroupName="taxes">
+    <h4>Impuestos y totales</h4>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tax">IVA</label>
+        <input id="tax" type="number" formControlName="iva" placeholder="IVA">
+      </div>
+      <div class="form-group">
+        <label for="discount">Descuento</label>
+        <input id="discount" type="number" formControlName="discount" placeholder="Descuento (%)">
+      </div>
+    </div>
+    <div class="total-summary">
+      <div class="total-row">
+        <span>Subtotal:</span>
+        <span>{{ subtotal }}</span>
+      </div>
+      <div class="total-row">
+        <span>Descuento:</span>
+        <span>{{ discountAmount }}</span>
+      </div>
+      <div class="total-row">
+        <span>IVA <span class="variable-tax">{{ tax }}%:</span></span>
+        <span>{{ tax }}</span>
+      </div>
+      <div class="total-row">
+        <span>TOTAL:</span>
+        <span>{{ total }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section" formGroupName="additionalRemarks">
+    <h4 class="notes-section">Notas adicionales</h4>
+    <div class="form-group">
+      <label for="notes">Notas (opcional)</label>
+      <textarea id="notes" formControlName="remarks"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="terms">Información de pago</label>
+      <textarea id="terms" formControlName="paymentInformation" placeholder="Ej: Transferencia bancaria a ES12 1234 1234 1234 1234"></textarea>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button id="preview-invoice" class="primary-button"><i class="fas fa-eye"></i> <span id="preview-text">Vista previa</span></button>
+    <button id="save-invoice" class="secondary-button"><i class="fas fa-save"></i> <span id="save-text">Guardar</span></button>
+    <button id="download-invoice" class="primary-button"><i class="fas fa-download"></i> <span id="download-text">Descargar PDF</span></button>
+  </div>
+</form>
