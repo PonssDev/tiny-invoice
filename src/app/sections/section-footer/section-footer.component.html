@@ -1,0 +1,49 @@
+<p>section-footer works!</p>
+<footer>
+  <div class="container">
+      <div class="footer-grid">
+          <div class="footer-brand">
+              <div class="logo">
+                  <h2>Tiny<span>Invoice</span></h2>
+              </div>
+              <p id="footer-tagline">Facturas profesionales para freelancers</p>
+              <div class="social-links">
+                  <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                  <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                  <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+          </div>
+          <div class="footer-links">
+              <h3 id="footer-product">Producto</h3>
+              <ul>
+                  <li><a href="#features" id="footer-features">Características</a></li>
+                  <li><a href="#pricing" id="footer-pricing">Precios</a></li>
+                  <li><a href="#faq" id="footer-faq">FAQ</a></li>
+                  <li><a href="#" id="footer-support">Soporte</a></li>
+              </ul>
+          </div>
+          <div class="footer-links">
+              <h3 id="footer-legal">Legal</h3>
+              <ul>
+                  <li><a href="#" id="footer-privacy">Política de privacidad</a></li>
+                  <li><a href="#" id="footer-terms">Términos de servicio</a></li>
+                  <li><a href="#" id="footer-cookies">Política de cookies</a></li>
+                  <li><a href="#" id="footer-gdpr">GDPR</a></li>
+              </ul>
+          </div>
+          <form [formGroup]="newsLetterForm" class="footer-newsletter">
+              <h3 id="footer-newsletter">Mantente informado</h3>
+              <p id="footer-newsletter-text">Suscríbete para recibir noticias y actualizaciones</p>
+              <form class="newsletter-form">
+                  <input formControlName="email" type="email" placeholder="Tu email" aria-label="Email" required>
+              </form>
+              <button id="footer-subscribe" (click)="onSubmit()">Suscribirse</button>
+            </form>
+      </div>
+      <div class="footer-bottom">
+          <p id="footer-copyright">&copy; 2025 TinyInvoice. Todos los derechos reservados.</p>
+          <p id="footer-made">Hecho con <i class="fas fa-heart"></i> por Pons</p>
+      </div>
+  </div>
+</footer>

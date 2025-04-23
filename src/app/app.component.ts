@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { InvoicePreviewComponent } from "./components/invoice-preview/invoice-preview.component";
+import { SectionHeaderComponent } from "./sections/section-header/section-header.component";
+import { SectionFooterComponent } from "./sections/section-footer/section-footer.component";
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    InvoicePreviewComponent
+    SectionHeaderComponent,
+    SectionFooterComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

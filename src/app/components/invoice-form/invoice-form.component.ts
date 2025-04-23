@@ -33,7 +33,7 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   constructor(private readonly fb: FormBuilder) {
-    this.invoiceForm = this.fb.group({
+    this.invoiceForm = this.fb.group<InvoiceForm>({
       emisor: this.fb.group({
         emisorName: this.fb.control('', Validators.required),
         emisorAddress: this.fb.control(''),
