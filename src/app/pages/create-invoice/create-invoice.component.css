@@ -1,0 +1,14 @@
+/* App Container */
+.app-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  max-width: var(--container-width);
+}
+
+@media (max-width: 992px) {
+  .app-container {
+      grid-template-columns: 1fr;
+  }
+}

@@ -31,13 +31,13 @@
                   <li><a href="#" id="footer-gdpr">GDPR</a></li>
               </ul>
           </div>
-          <form [formGroup]="newsLetterForm" class="footer-newsletter">
+          <form class="footer-newsletter">
               <h3 id="footer-newsletter">Mantente informado</h3>
               <p id="footer-newsletter-text">Suscríbete para recibir noticias y actualizaciones</p>
               <form class="newsletter-form">
                   <input formControlName="email" type="email" placeholder="Tu email" aria-label="Email" required>
               </form>
-              <button id="footer-subscribe" (click)="onSubmit()">Suscribirse</button>
+              <button id="footer-subscribe">Suscribirse</button>
             </form>
       </div>
       <div class="footer-bottom">

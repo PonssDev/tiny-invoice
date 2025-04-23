@@ -3,7 +3,6 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-section-hero',
-  standalone: true,
   imports: [
     RouterLink,
   ],

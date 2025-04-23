@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor } from '@angular/common';
 import { InvoiceForm } from '../../interfaces/invoice-form-interface';
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'app-invoice-form',
@@ -32,8 +33,11 @@ export class InvoiceFormComponent implements OnInit {
     });
   }
 
-  constructor(private readonly fb: FormBuilder) {
-    this.invoiceForm = this.fb.group<InvoiceForm>({
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly formService: FormService,
+  ) {
+    this.invoiceForm = this.fb.group({
       emisor: this.fb.group({
         emisorName: this.fb.control('', Validators.required),
         emisorAddress: this.fb.control(''),
@@ -71,6 +75,8 @@ export class InvoiceFormComponent implements OnInit {
   public onSubmit() {
     if (this.invoiceForm.valid) {
       console.log('Formulario válido');
+      const formData = this.invoiceForm.value
+      this.formService.getFormData(formData)
     } else {
       console.log('Formulario inválido');
     }

@@ -1,5 +1,4 @@
-/* Estilos para el formulario de facturas */
-/* form {
+form {
   max-width: 900px;
   margin: 0 auto;
 }
@@ -161,7 +160,7 @@ textarea {
 .variable-tax {
   color: #777;
   font-size: 0.9em;
-} */
+}
 
 /* Form Styles */
 .invoice-form, .invoice-preview {
