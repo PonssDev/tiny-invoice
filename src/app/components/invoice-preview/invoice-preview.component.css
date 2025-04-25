@@ -1,3 +1,14 @@
+.invoice-preview {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  /* Añadiendo estas propiedades para que llegue hasta abajo */
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .preview-header {
   display: flex;
   justify-content: space-between;
@@ -169,4 +180,10 @@
 
 .invoice-payment {
   margin-top: 1.5rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
 }

@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin: 0 auto 3rem auto; /* Añadido margen auto horizontal para centrar */
   max-width: var(--container-width);
 }
 

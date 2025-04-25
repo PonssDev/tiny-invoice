@@ -1,15 +1,15 @@
-<div class="invoice-document">
+<div *ngIf="invoiceData" class="invoice-document">
   <div class="invoice-header">
       <div>
           <h1 class="invoice-title">Factura</h1>
           <div class="invoice-meta">
-                <strong>Número de Factura: </strong>{{invoiceData.invoiceDetails.number}}
+                <strong>Número de Factura: </strong>{{invoiceData.invoiceDetails?.number}}
           </div>
           <div class="invoice-meta">
-              <strong>Fecha: </strong> {{invoiceData.invoiceDetails.invoiceDate}}
+              <strong>Fecha: </strong> {{invoiceData.invoiceDetails?.date}}
           </div>
           <div class="invoice-meta">
-              <strong>Fecha de vencimiento: </strong> {{invoiceData.invoiceDetails.expirationDate}}
+              <strong>Fecha de vencimiento: </strong> {{invoiceData.invoiceDetails?.expirationDate}}
           </div>
       </div>
       <img class="invoice-logo">
@@ -18,17 +18,17 @@
   <div class="invoice-addresses">
       <div class="invoice-from">
           <div class="address-title">De: </div>
-          <div><strong>{{invoiceData.emisor.emisorName}}</strong></div>
-          <div>{{invoiceData.emisor.emisorAddress}}</div>
-          <div>{{invoiceData.emisor.emisorNif}}</div>
-          <div>{{invoiceData.emisor.emisorEmail}}</div>
+          <div><strong>{{invoiceData.emisor?.emisorName}}</strong></div>
+          <div>{{invoiceData.emisor?.emisorAddress}}</div>
+          <div>{{invoiceData.emisor?.emisorNif}}</div>
+          <div>{{invoiceData.emisor?.emisorEmail}}</div>
       </div>
       
       <div class="invoice-to">
           <div class="address-title">Para: </div>
-          <div><strong>{{invoiceData.reciver.reciverName}}</strong></div>
-          <div>{{invoiceData.reciver.reciverAddress}}</div>
-          <div>{{invoiceData.reciver.reciverNif}}</div>
+          <div><strong>{{invoiceData.reciver?.reciverName}}</strong></div>
+          <div>{{invoiceData.reciver?.reciverAddress}}</div>
+          <div>{{invoiceData.reciver?.reciverNif}}</div>
       </div>
   </div>
   
@@ -54,23 +54,23 @@
       
       <div class="invoice-totals">
           <div class="total-line">
-              <span></span>
-              <span></span>
+              <span>Subtotal:</span>
+              <span>{{invoiceData.subtotal}}</span>
           </div>
           
           <div class="total-line">
-              <span></span>
-              <span></span>
+              <span>Descuento ({{invoiceData.taxes?.discount}}%):</span>
+              <span>{{invoiceData.discountAmount}}</span>
           </div>
           
           <div class="total-line">
-              <span></span>
-              <span></span>
+              <span>IVA ({{invoiceData.taxes?.iva}}%):</span>
+              <span>{{invoiceData.taxAmount}}</span>
           </div>
           
           <div class="total-line invoice-total">
-              <span></span>
-              <span></span>
+              <span>TOTAL:</span>
+              <span>{{invoiceData.total}}</span>
           </div>
       </div>
   </div>

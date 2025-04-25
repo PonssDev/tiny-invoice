@@ -1,0 +1,22 @@
+.hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.hero h2 {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-color);
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  font-size: 1.125rem;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+}

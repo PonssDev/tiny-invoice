@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { NgFor } from '@angular/common';
 import { InvoiceForm } from '../../interfaces/invoice-form-interface';
 import { FormService } from '../../services/form.service';
+import { InvoicePreview } from '../../interfaces/invoice-preview';
 
 @Component({
   selector: 'app-invoice-form',
@@ -18,11 +19,18 @@ export class InvoiceFormComponent implements OnInit {
   public invoiceForm: FormGroup<InvoiceForm>;
 
   public subtotal: number = 0;
+
   public total: number = 0;
+
   public discount: number = 0;
-  public tax: number = 21;
+
   public discountAmount: number = 0;
 
+  public tax: number = 21;
+
+  public taxAmount: number = 0;
+
+  
   ngOnInit(): void {
     this.invoiceForm.get('taxes.iva')?.valueChanges.subscribe(() => {
       this.calculateTotals();
@@ -40,7 +48,7 @@ export class InvoiceFormComponent implements OnInit {
     this.invoiceForm = this.fb.group({
       emisor: this.fb.group({
         emisorName: this.fb.control('', Validators.required),
-        emisorAddress: this.fb.control(''),
+        emisorAddress: this.fb.control(''), 
         emisorNif: this.fb.control(''),
         emisorEmail: this.fb.control(''),
       }),
@@ -75,8 +83,14 @@ export class InvoiceFormComponent implements OnInit {
   public onSubmit() {
     if (this.invoiceForm.valid) {
       console.log('Formulario válido');
-      const formData = this.invoiceForm.value
-      this.formService.getFormData(formData)
+      const invoicePreview = {
+        ...this.invoiceForm.value,
+        subtotal: this.subtotal,
+        total: this.total,
+        discountAmount: this.discountAmount,
+        taxAmount: this.taxAmount,
+      }
+      this.formService.getFormData(invoicePreview)
     } else {
       console.log('Formulario inválido');
     }
@@ -136,8 +150,8 @@ export class InvoiceFormComponent implements OnInit {
     const taxRate = this.invoiceForm.get('taxes.iva')?.value ?? 0;
     this.tax = taxRate;
     const taxableAmount = this.subtotal - this.discountAmount;
-    const taxAmount = (taxableAmount * taxRate) / 100;
+    this.taxAmount = parseFloat(((taxableAmount * taxRate) / 100).toFixed(2));
 
-    this.total = parseFloat((taxableAmount + taxAmount).toFixed(2));
+    this.total = parseFloat((taxableAmount + this.taxAmount).toFixed(2));
   }
 }

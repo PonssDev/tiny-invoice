@@ -10,7 +10,7 @@ export class FormService {
   
   public formData$ = this.formData.asObservable()
 
-  public getFormData(data: any){
+  public getFormData(data: any): void{
     this.formData.next(data)
   }
 }
