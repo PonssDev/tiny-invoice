@@ -1,5 +1,5 @@
 <app-section-hero-invoice></app-section-hero-invoice>
 <div class="app-container">
-  <app-invoice-form></app-invoice-form>
-  <app-invoice-preview></app-invoice-preview>
+  <app-invoice-form (donwloadInvoice)="invoicePreview.triggerDownloadPDF()"></app-invoice-form>
+  <app-invoice-preview #invoicePreview></app-invoice-preview>
 </div>

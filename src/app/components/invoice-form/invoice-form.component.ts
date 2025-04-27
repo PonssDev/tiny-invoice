@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor } from '@angular/common';
 import { InvoiceForm } from '../../interfaces/invoice-form-interface';
@@ -16,6 +16,8 @@ import { InvoicePreview } from '../../interfaces/invoice-preview';
   standalone: true
 })
 export class InvoiceFormComponent implements OnInit {
+  @Output() donwloadInvoice = new EventEmitter<void>()
+
   public invoiceForm: FormGroup<InvoiceForm>;
 
   public subtotal: number = 0;
@@ -96,6 +98,18 @@ export class InvoiceFormComponent implements OnInit {
     }
   }
 
+  public addService(): void {
+    this.services.push(this.newService());
+  }
+
+  public removeService(index: number): void {
+    this.services.removeAt(index);
+  }
+
+  public onDownloadClick(): void{
+    this.donwloadInvoice.emit()
+  }
+
   private newService(): FormGroup {
     const service = this.fb.group({
       description: this.fb.control('', Validators.required),
@@ -115,14 +129,6 @@ export class InvoiceFormComponent implements OnInit {
     });
     
     return service;
-  }
-
-  public addService(): void {
-    this.services.push(this.newService());
-  }
-
-  public removeService(index: number): void {
-    this.services.removeAt(index);
   }
 
   private calculateTotal(service: FormGroup) {

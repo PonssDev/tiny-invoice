@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { InvoiceTemplateComponent } from "../invoice-template/invoice-template.component";
 
 @Component({
@@ -9,4 +9,9 @@ import { InvoiceTemplateComponent } from "../invoice-template/invoice-template.c
 })
 export class InvoicePreviewComponent {
 
+  @ViewChild(InvoiceTemplateComponent) invoiceTemplate!: InvoiceTemplateComponent
+
+  public triggerDownloadPDF(): void{
+    this.invoiceTemplate.downloadPDF()
+  }
 }
