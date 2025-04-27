@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { InvoiceForm } from '../../interfaces/invoice-form-interface';
 import { FormService } from '../../services/form.service';
 
@@ -8,6 +8,7 @@ import { FormService } from '../../services/form.service';
   selector: 'app-invoice-form',
   imports: [
     NgFor,
+    NgIf,
     ReactiveFormsModule,
   ],
   templateUrl: './invoice-form.component.html',
@@ -33,6 +34,7 @@ export class InvoiceFormComponent implements OnInit {
 
   public today: string = ''
 
+  public formSubmitted: boolean = false;
   
   ngOnInit(): void {
     this.getToday()
@@ -57,8 +59,12 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.formSubmitted = true;
+    this.markFormGroupTouched(this.invoiceForm);
+    
     if (this.invoiceForm.valid) {
       console.log('Formulario válido');
+      window.scrollTo({top: 0, behavior: 'smooth'})
       const invoicePreview = {
         ...this.invoiceForm.value,
         subtotal: this.subtotal,
@@ -81,7 +87,40 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   public onDownloadClick(): void{
-    this.donwloadInvoice.emit()
+    this.formSubmitted = true;
+    this.markFormGroupTouched(this.invoiceForm);
+    
+    if (this.invoiceForm.valid) {
+      this.donwloadInvoice.emit();
+    }
+  }
+
+  public onSaveClick(): void {
+    this.formSubmitted = true;
+    this.markFormGroupTouched(this.invoiceForm);
+    
+    if (this.invoiceForm.valid) {
+      console.log('Formulario guardado');
+      // Implementar lógica para guardar el formulario
+    }
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach(arrayControl => {
+          if (arrayControl instanceof FormGroup) {
+            this.markFormGroupTouched(arrayControl);
+          } else {
+            arrayControl.markAsTouched();
+          }
+        });
+      }
+    });
   }
 
   private getToday(): void{
