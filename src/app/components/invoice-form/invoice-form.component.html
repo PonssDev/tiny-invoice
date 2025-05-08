@@ -127,7 +127,7 @@
 
   <div class="form-actions">
     <button id="preview-invoice" class="primary-button" (click)="onSubmit()" [disabled]="formSubmitted && !invoiceForm.valid"><i class="fas fa-eye"></i> <span id="preview-text">Vista previa</span></button>
-    <button id="save-invoice" class="secondary-button" [disabled]="formSubmitted && !invoiceForm.valid"><i class="fas fa-save"></i> <span id="save-text">Guardar</span></button>
+    <!-- <button id="save-invoice" class="secondary-button" [disabled]="formSubmitted && !invoiceForm.valid"><i class="fas fa-save"></i> <span id="save-text">Guardar</span></button> -->
     <button id="download-invoice" class="primary-button" (click)="onDownloadClick()" [disabled]="formSubmitted && !invoiceForm.valid"><i class="fas fa-download"></i> <span id="download-text">Descargar PDF</span></button>
   </div>
 </form>
