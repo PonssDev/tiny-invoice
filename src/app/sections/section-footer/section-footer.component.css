@@ -74,66 +74,6 @@ footer {
   padding-left: 5px;
 }
 
-.footer-newsletter h3 {
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-}
-
-.footer-newsletter h3::after {
-  content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  width: 30px;
-  height: 2px;
-  background-color: var(--primary-color);
-}
-
-.footer-newsletter p {
-  opacity: 0.7;
-  margin-bottom: 1.5rem;
-}
-
-.newsletter-form {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.newsletter-form input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: var(--border-radius);
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.newsletter-form input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.newsletter-form input:focus {
-  outline: none;
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-.newsletter-form button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: var(--border-radius);
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.newsletter-form button:hover {
-  background-color: var(--primary-dark);
-}
-
 .footer-bottom {
   display: flex;
   justify-content: space-between;

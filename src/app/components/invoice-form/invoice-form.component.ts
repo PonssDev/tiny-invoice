@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { InvoiceForm } from '../../interfaces/invoice-form-interface';
 import { FormService } from '../../services/form.service';
 
@@ -8,7 +8,6 @@ import { FormService } from '../../services/form.service';
   selector: 'app-invoice-form',
   imports: [
     NgFor,
-    NgIf,
     ReactiveFormsModule,
   ],
   templateUrl: './invoice-form.component.html',
@@ -17,6 +16,10 @@ import { FormService } from '../../services/form.service';
 })
 export class InvoiceFormComponent implements OnInit {
   @Output() donwloadInvoice = new EventEmitter<void>()
+
+  private readonly fb = inject(FormBuilder);
+
+  private readonly formService = inject(FormService);
 
   public invoiceForm!: FormGroup<InvoiceForm>;
 
@@ -35,11 +38,10 @@ export class InvoiceFormComponent implements OnInit {
   public today: string = ''
 
   public formSubmitted: boolean = false;
-  
+
   ngOnInit(): void {
     this.getToday()
     this.initForm()
-    console.log(this.today)
     this.invoiceForm.get('taxes.iva')?.valueChanges.subscribe(() => {
       this.calculateTotals();
     });
@@ -49,11 +51,6 @@ export class InvoiceFormComponent implements OnInit {
     });
   }
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly formService: FormService,
-  ) {}
-
   get services(): FormArray {
     return this.invoiceForm.get('services') as FormArray;
   }
@@ -61,10 +58,9 @@ export class InvoiceFormComponent implements OnInit {
   public onSubmit() {
     this.formSubmitted = true;
     this.markFormGroupTouched(this.invoiceForm);
-    
+
     if (this.invoiceForm.valid) {
-      console.log('Formulario válido');
-      window.scrollTo({top: 0, behavior: 'smooth'})
+      window.scrollTo({ top: 0, behavior: 'smooth' })
       const invoicePreview = {
         ...this.invoiceForm.value,
         subtotal: this.subtotal,
@@ -73,8 +69,6 @@ export class InvoiceFormComponent implements OnInit {
         taxAmount: this.taxAmount,
       }
       this.formService.getFormData(invoicePreview)
-    } else {
-      console.log('Formulario inválido');
     }
   }
 
@@ -86,10 +80,10 @@ export class InvoiceFormComponent implements OnInit {
     this.services.removeAt(index);
   }
 
-  public onDownloadClick(): void{
+  public onDownloadClick(): void {
     this.formSubmitted = true;
     this.markFormGroupTouched(this.invoiceForm);
-    
+
     if (this.invoiceForm.valid) {
       this.donwloadInvoice.emit();
     }
@@ -98,7 +92,7 @@ export class InvoiceFormComponent implements OnInit {
   public onSaveClick(): void {
     this.formSubmitted = true;
     this.markFormGroupTouched(this.invoiceForm);
-    
+
     if (this.invoiceForm.valid) {
       console.log('Formulario guardado');
       // Implementar lógica para guardar el formulario
@@ -108,7 +102,7 @@ export class InvoiceFormComponent implements OnInit {
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
-      
+
       if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
       } else if (control instanceof FormArray) {
@@ -123,7 +117,7 @@ export class InvoiceFormComponent implements OnInit {
     });
   }
 
-  private getToday(): void{
+  private getToday(): void {
     const now = new Date()
     const year = now.getFullYear()
     const month = (now.getMonth() + 1).toString().padStart(2, '0')
@@ -131,11 +125,11 @@ export class InvoiceFormComponent implements OnInit {
     this.today = `${year}-${month}-${day}`
   }
 
-  private initForm(): void{
+  private initForm(): void {
     this.invoiceForm = this.fb.group({
       emisor: this.fb.group({
         emisorName: this.fb.control('', Validators.required),
-        emisorAddress: this.fb.control('', Validators.required), 
+        emisorAddress: this.fb.control('', Validators.required),
         emisorNif: this.fb.control('', Validators.required),
         emisorEmail: this.fb.control('', [Validators.required, Validators.email]),
       }),
@@ -180,17 +174,17 @@ export class InvoiceFormComponent implements OnInit {
     service.get('price')?.valueChanges.subscribe(() => {
       this.calculateTotal(service);
     });
-    
+
     return service;
   }
 
   private calculateTotal(service: FormGroup) {
     const quantity = service.get('quantity')?.value;
     const price = service.get('price')?.value;
-    
+
     const serviceTotal = quantity * price;
     service.get('total')?.setValue(serviceTotal.toFixed(2));
-    
+
     this.calculateTotals();
   }
 
