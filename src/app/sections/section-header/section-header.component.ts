@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-section-header',
   imports: [
     RouterLink,
+    NgIf,
   ],
   templateUrl: './section-header.component.html',
   styleUrl: './section-header.component.css',

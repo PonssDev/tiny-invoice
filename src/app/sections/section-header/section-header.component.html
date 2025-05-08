@@ -4,7 +4,7 @@
           <h1>Tiny<span>Invoice</span></h1>
       </div>
       <nav [class.active]="menuActive">
-          <button class="close-menu" (click)="toggleMenu()">
+          <button class="close-menu" *ngIf="menuActive" (click)="toggleMenu()">
               <i class="fas fa-times"></i>
           </button>
           <ul>
