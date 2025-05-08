@@ -369,3 +369,91 @@ button {
 .form-actions button {
   flex: 1;
 }
+
+/* Media queries para responsive */
+@media (max-width: 991.98px) {
+  .invoice-form {
+    padding: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.4rem;
+  }
+  
+  .form-actions {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .form-actions button {
+    flex: 1;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .item-row {
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 0.75rem;
+  }
+  
+  input, textarea, select {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.95rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .form-actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .invoice-form {
+    padding: 1.25rem;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  h4 {
+    font-size: 1.1rem;
+  }
+  
+  .item-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--background-alt);
+    border-radius: var(--border-radius);
+    position: relative;
+  }
+  
+  .remove-item {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 0.75rem;
+  }
+  
+  .totals-summary {
+    padding: 1rem;
+  }
+  
+  .total-row {
+    font-size: 0.95rem;
+  }
+}

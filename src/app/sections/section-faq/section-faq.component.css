@@ -1,11 +1,13 @@
 .faq-section {
   background-color: #f8f9fa;
+  padding: 5rem 0;
 }
 
 .section-title {
   font-weight: 700;
   margin-bottom: 1rem;
   color: #333;
+  font-size: 2.5rem;
 }
 
 .section-subtitle {
@@ -19,6 +21,7 @@
   overflow: hidden;
   border: 1px solid rgba(0,0,0,.125);
   transition: all 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .accordion-item:hover {
@@ -43,4 +46,53 @@
 .accordion-body {
   padding: 1.25rem;
   background-color: #fff;
+}
+
+/* Media queries para responsive */
+@media (max-width: 991.98px) {
+  .faq-section {
+    padding: 4rem 0;
+  }
+  
+  .section-title {
+    font-size: 2.25rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .faq-section {
+    padding: 3rem 0;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+  
+  .accordion-button {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .faq-section {
+    padding: 2.5rem 0;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .accordion-button {
+    padding: 0.875rem;
+    font-size: 0.95rem;
+  }
+  
+  .accordion-body {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
 }

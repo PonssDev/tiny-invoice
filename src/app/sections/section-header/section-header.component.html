@@ -1,17 +1,21 @@
 <header>
   <div class="container">
-      <div [routerLink]="['/']" routerLinkActive="router-link-active"  class="logo">
+      <div [routerLink]="['/']" routerLinkActive="router-link-active" class="logo">
           <h1>Tiny<span>Invoice</span></h1>
       </div>
-      <nav>
+      <nav [class.active]="menuActive">
+          <button class="close-menu" (click)="toggleMenu()">
+              <i class="fas fa-times"></i>
+          </button>
           <ul>
-              <li><a href="#features">Características</a></li>
-              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#features" (click)="closeMenu()">Características</a></li>
+              <li><a href="#faq" (click)="closeMenu()">FAQ</a></li>
               <li><a href="#" class="language-toggle" id="lang-toggle">EN</a></li>
           </ul>
       </nav>
-      <div class="mobile-menu-toggle">
+      <div class="mobile-menu-toggle" (click)="toggleMenu()">
           <i class="fas fa-bars"></i>
       </div>
   </div>
+  <div class="backdrop" [class.active]="menuActive" (click)="closeMenu()"></div>
 </header>
