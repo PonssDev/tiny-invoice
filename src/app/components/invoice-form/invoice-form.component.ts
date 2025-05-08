@@ -93,10 +93,9 @@ export class InvoiceFormComponent implements OnInit {
     this.formSubmitted = true;
     this.markFormGroupTouched(this.invoiceForm);
 
-    if (this.invoiceForm.valid) {
-      console.log('Formulario guardado');
-      // Implementar lógica para guardar el formulario
-    }
+    // if (this.invoiceForm.valid) {
+    //   Implementar lógica para guardar el formulario
+    // }
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {

@@ -25,7 +25,6 @@ export class InvoiceTemplateComponent implements OnInit {
     this.formService.formData$.subscribe((data: InvoicePreview) => {
       if (data) {
         this.invoiceData = data
-        console.log('Datos recibidos en invoice-template', this.invoiceData)
       }
     })
   }
